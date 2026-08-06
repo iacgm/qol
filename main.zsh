@@ -21,7 +21,8 @@ function login { ucp; local role="${1:-prod}"; echo $role ; affirm.onelogin --aw
 # git shortcuts
 alias diff="git diff --stat"
 alias jump="git jump merge"
-alias slog="git log origin~1.. --oneline 2> /dev/null || git log --oneline"
+alias slog="git log origin.. --oneline 2> /dev/null || git log --oneline"
+alias mlog="git log $(git merge-base origin HEAD)~1 .. --oneline 2> /dev/null || git log --oneline"
 alias branch="git branch --show-current"
 alias rebase="git rebase origin/master"
 alias pull="git pull"
