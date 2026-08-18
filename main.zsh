@@ -1,3 +1,7 @@
+# Increase history length
+HISTSIZE=50000
+SAVEHIST=50000
+
 # ATT shortcuts
 function uw { cd $(git rev-parse --show-toplevel)/deployable/uw ; }
 function groot { cd $(git rev-parse --show-toplevel) ; }
@@ -17,14 +21,24 @@ function pcmp { rcli policy-relation Signal.$1 Signal.$2 }
 alias sigtest="ucp; pytest signals/tests"
 alias inttest="ucp; pytest underwriting/terms/service/tests"
 function login { ucp; local role="${1:-prod}"; echo $role ; affirm.onelogin --aws-account $role }
+# UW
+function parity { PARITY_FAST_EXIT_ENV=1 ./gradlew batch --args="LocalFatlogParityTask -d $1 -o $2 -dt ${3:-AA}" }
+function iparity { PARITY_FAST_EXIT_ENV=1 ./gradlew batch --args="LocalFatlogParityTask -i $1 -o $2 -dt ${3:-AA}" }
+alias gr="./gradlew"
+alias grfix="./gradlew --no-configuration-cache :jvm-uw:decisioning:detekt"
+alias compile="gr :jvm-uw:orchestration:compileKotlin :jvm-uw:decisioning:compileKotlin -q"
+alias detekt="gr :jvm-uw:orchestration:detekt :jvm-uw:decisioning:detekt"
+alias testuw="gr :jvm-uw:orchestration:test :jvm-uw:decisioning:test"
 
 # git shortcuts
 alias diff="git diff --stat"
 alias jump="git jump merge"
+alias cont="git add . ; git rebase --continue"
+alias abort="git rebase --abort"
 alias slog="git log origin.. --oneline 2> /dev/null || git log --oneline"
 alias mlog="git log $(git merge-base origin HEAD)~1 .. --oneline 2> /dev/null || git log --oneline"
 alias branch="git branch --show-current"
-alias rebase="git rebase origin/master"
+alias rebase="git fetch origin master && git rebase origin/master"
 alias pull="git pull"
 alias push="git push"
 alias pushf="git push -f"
@@ -38,3 +52,7 @@ function clone { git clone "https://github.com/$1"; }
 function publish { git commit -am $1 && (pull ; push) ; }
 function publishf { git commit -am $1 --no-verify && pushf ; }
 
+# Misc.
+alias n="nvim"
+alias xargs="xargs -S 1048" # Raise command length limit on xargs
+alias njq="nvim -c 'luafile ~/qol/jq.lua'"
