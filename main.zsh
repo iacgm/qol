@@ -56,3 +56,4 @@ function publishf { git commit -am $1 --no-verify && pushf ; }
 alias n="nvim"
 alias xargs="xargs -S 1048" # Raise command length limit on xargs
 alias njq="nvim -c 'luafile ~/qol/jq.lua'"
+alias nsh="nvim -c 'luafile ~/qol/sh.lua'"
