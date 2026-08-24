@@ -25,7 +25,7 @@ function login { ucp; local role="${1:-prod}"; echo $role ; affirm.onelogin --aw
 function parity { PARITY_FAST_EXIT_ENV=1 ./gradlew batch --args="LocalFatlogParityTask -d $1 -o $2 -dt ${3:-AA}" }
 function iparity { PARITY_FAST_EXIT_ENV=1 ./gradlew batch --args="LocalFatlogParityTask -i $1 -o $2 -dt ${3:-AA}" }
 alias gr="./gradlew"
-alias grfix="./gradlew --no-configuration-cache :jvm-uw:decisioning:detekt"
+alias grfix="gr --stop ; gr --no-configuration-cache :jvm-uw:decisioning:detekt"
 alias compile="gr :jvm-uw:orchestration:compileKotlin :jvm-uw:decisioning:compileKotlin -q"
 alias detekt="gr :jvm-uw:orchestration:detekt :jvm-uw:decisioning:detekt"
 alias testuw="gr :jvm-uw:orchestration:test :jvm-uw:decisioning:test"
@@ -44,6 +44,7 @@ alias push="git push"
 alias pushf="git push -f"
 alias cnew="git checkout -b"
 alias cout="git checkout"
+alias unstage="git restore --staged $(git rev-parse --show-toplevel)"
 # Diffview
 function pr { att; nvim -c "DiffviewOpen $(git merge-base origin origin/$1) origin/$1"; }
 # Worktree-level cout
@@ -53,6 +54,10 @@ function publish { git commit -am $1 && (pull ; push) ; }
 function publishf { git commit -am $1 --no-verify && pushf ; }
 
 # Misc.
+alias qol="nvim ~/qol/main.zsh"
+alias shrc="nvim ~/.zshrc"
+alias config=". ~/.zshrc"
+alias q="exit"
 alias n="nvim"
 alias xargs="xargs -S 1048" # Raise command length limit on xargs
 alias njq="nvim -c 'luafile ~/qol/jq.lua'"
