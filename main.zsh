@@ -48,7 +48,7 @@ alias unstage="git restore --staged $(git rev-parse --show-toplevel)"
 # Diffview
 function pr { att; nvim -c "DiffviewOpen $(git merge-base origin origin/$1) origin/$1"; }
 # Worktree-level cout
-function go { local _cout=$(cout $1 2>&1); if ( (($? != 0)) && (echo $_cout | rg -q fatal)); then cd $(echo $_cout | sed -nE "s/.*'([^']*)'/\1/p"); else echo $_cout; fi; }
+function go { local _cout=$(cout $1 2>&1); if ( echo $_cout | rg -q '^fatal' ); then cd $(echo $_cout | sed -nE "s/.*'([^']*)'/\1/p"); else echo $_cout; fi; }
 function clone { git clone "https://github.com/$1"; }
 function publish { git commit -am $1 && (pull ; push) ; }
 function publishf { git commit -am $1 --no-verify && pushf ; }
